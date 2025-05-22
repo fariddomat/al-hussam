@@ -129,7 +129,7 @@
                 class="text-center mt-12">
                 <a href="{{ route('project-categories') }}"
                     class="inline-block px-8 py-4 bg-transparent text-blue-900 font-semibold rounded-md border border-black hover:border-white relative overflow-hidden group hover:text-white transition-colors duration-300">
-                    <span class="relative z-10">استكشف المزيد من المشاريع</span>
+                <span class="relative z-10">استكشف المزيد من المشاريع</span>
                     <span
                         class="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
                 </a>

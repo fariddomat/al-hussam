@@ -221,7 +221,7 @@
                     class="inline-block px-8 py-4 bg-white text-black font-semibold rounded-md border border-gray-300 hover:bg-blue-500 hover:text-white transition-all duration-300 mr-4">
                     تصفح المشاريع
                 </a>
-                <a wire:navigate href="{{ route('contact') }}"
+                <a @click="contactOpen = true" href="#"
                     class="inline-block px-8 py-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-all duration-300">
                     تواصل معنا
                 </a>

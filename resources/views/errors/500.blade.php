@@ -18,7 +18,7 @@
                     </p>
                     <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale', 'animate-pulse-once')"
                         class="opacity-0 scale-95 mt-6">
-                        <a wire:navigate href="{{ route('contact') }}"
+                        <a @click="contactOpen = true" href="#"
                             class="inline-block px-8 py-4 bg-white text-black font-semibold rounded-md border border-gray-300 hover:bg-blue-500 hover:text-white transition-all duration-300"
                             aria-label="تواصل مع الدعم">
                             تواصل مع الدعم
@@ -29,7 +29,7 @@
                 <div x-intersect="$el.classList.add('animate-item', 'slide-in-right')"
                     class="opacity-0 -translate-x-10 relative p-4">
                     <div class="blue-border"></div>
-                    <img src="{{ asset('logo/Al-Hussam 1.png') }}" alt="شعار الحسام" width="400" height="400"
+                    <img src="{{ asset('logo/Al-Hussam 4.png') }}" alt="شعار الحسام" width="400" height="400"
                         class="w-full h-96 object-contain rounded-lg shadow-md relative z-10" loading="lazy">
                 </div>
             </div>

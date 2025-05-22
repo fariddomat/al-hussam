@@ -28,7 +28,7 @@
                 <div x-intersect="$el.classList.add('animate-item', 'slide-in-right')"
                     class="opacity-0 -translate-x-10 relative p-4">
                     <div class="blue-border"></div>
-                    <img src="{{ asset('logo/Al-Hussam 1.png') }}" alt="شعار الحسام" width="400" height="400"
+                    <img src="{{ asset('logo/Al-Hussam 4.png') }}" alt="شعار الحسام" width="400" height="400"
                         class="w-full h-96 object-contain rounded-lg shadow-md relative z-10" loading="lazy">
                 </div>
             </div>

@@ -122,7 +122,7 @@
             @else
                 <div class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8 text-center material-card">
                     <p class="text-charcoal text-lg mb-4">لا توجد فئات مشاريع متاحة حاليًا</p>
-                    <a wire:navigate href="{{ route('contact') }}"
+                    <a @click="contactOpen = true" href="#"
                        class="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg button-scroll-effect hover:bg-navy hover:shadow-md transition-all duration-300 ripple">
                         تواصل معنا
                     </a>
@@ -143,7 +143,7 @@
             </p>
             <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
                  class="opacity-0 scale-95">
-                <a wire:navigate href="{{ route('contact') }}"
+                <a @click="contactOpen = true" href="#"
                    class="inline-block px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg button-scroll-effect hover:bg-navy hover:shadow-md transition-all duration-300 ripple">
                     تواصل معنا
                 </a>
