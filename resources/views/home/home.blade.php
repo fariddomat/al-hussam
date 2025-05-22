@@ -127,7 +127,7 @@
             <!-- Explore More Button -->
             <div x-intersect="$el.classList.add('animate-item', 'fade-in-slide-up')" x-intersect:delay="800"
                 class="text-center mt-12">
-                <a wire:navigate href="{{ route('project-categories') }}"
+                <a href="{{ route('project-categories') }}"
                     class="inline-block px-8 py-4 bg-transparent text-blue-900 font-semibold rounded-md border border-black hover:border-white relative overflow-hidden group hover:text-white transition-colors duration-300">
                     <span class="relative z-10">استكشف المزيد من المشاريع</span>
                     <span
