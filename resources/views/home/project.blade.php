@@ -123,7 +123,7 @@
                 <!-- Featured Image -->
                 <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
                     class="material-card bg-white rounded-xl shadow-md overflow-hidden opacity-0 scale-95">
-                    <img src="{{ $project->img ? Storage::url($project->img) : asset('images/coming-soon.jpg') }}"
+                    <img src="{{asset('images/sections/Real-estate-broker-3.jpg')}}"
                          alt="{{ $project->name }}"
                          class="w-full h-96 md:h-full object-cover hover:scale-105 transition-transform duration-300">
                 </div>

@@ -114,7 +114,7 @@
                             x-transition:leave-end="opacity-0 transform translate-y-4">
                             <h3 class="text-xl md:text-2xl font-bold text-white mb-2">{{ $project->name }}</h3>
                             <p class="text-sm md:text-base text-white mb-4">{{ $project->ProjectCategory->name }}</p>
-                            <a wire:navigate href="{{ route('projects.show', $project->slug) }}"
+                            <a href="{{ route('projects.show', $project->slug) }}"
                                 class="inline-block px-6 py-3 bg-transparent text-white font-semibold rounded-md border border-white hover:bg-blue-500 relative overflow-hidden group hover:text-white transition-colors duration-300">
                                 <span class="relative z-10">عرض التفاصيل</span>
                                 <span
@@ -216,6 +216,7 @@
         </div>
     </section>
 
+    {{-- Facilities --}}
       <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
         class="bg-gray-900 py-16 opacity-0 translate-y-10">
         <div class="container">
@@ -226,8 +227,8 @@
                 <!-- Featured Image -->
                 <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
                     class="material-card bg-white rounded-xl shadow-md overflow-hidden opacity-0 scale-95">
-                    <img src="{{ $project->img ? Storage::url($project->img) : asset('images/coming-soon.jpg') }}"
-                         alt="{{ $project->name }}"
+                    <img src="{{asset('images/sections/Real-estate-broker-3.jpg')}}"
+                         alt="image"
                          class="w-full h-96 md:h-full object-cover hover:scale-105 transition-transform duration-300">
                 </div>
                 <!-- Guarantee Cards -->
