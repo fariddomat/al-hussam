@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('img');
             $table->string('cover_img')->nullable();
             $table->text('images')->nullable();
+            $table->boolean('show_home')->default(false); // Added show_home column
             $table->enum('status', ['not_started', 'pending', 'done']);
             $table->integer('status_percent');
             $table->foreignId('project_category_id')->constrained('project_categories')->onDelete('cascade');

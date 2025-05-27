@@ -1,5 +1,5 @@
 <x-site-layout>
-    <!-- Hero Section (Who We Are) -->
+    <!-- Hero Section (Unchanged) -->
     <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
         class="relative h-[100vh] overflow-hidden opacity-0 translate-y-10" data-parallax>
         <div class="absolute inset-0 bg-cover bg-center parallax-bg transition-transform duration-1000"
@@ -10,7 +10,7 @@
             <div id="who-we-are" x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')" class="h-full flex items-center">
                 <div class="container">
                     @foreach (\App\Models\About::where('name', 'Who We Are')->get() as $about)
-                        <div class="max-w-3xl mx-auto bg-navy/90 text-white rounded-lg p-8 shadow-lg">
+                        <div class="max-w-3xl mx-auto bg-navy/90 text-white rounded-lg p-8 shadow-lg" style="background:#00000036;">
                             <h2 class="text-4xl md:text-6xl font-semibold text-center mb-6">من نحن</h2>
                             <div class="text-lg leading-relaxed text-center" style="text-align: justify">
                                 {!! $about->discription !!}
@@ -28,55 +28,58 @@
             </div>
         </div>
     </section>
-
     <!-- Mission Section -->
     <section id="mission" x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
-        class="bg-gradient-to-b from-gray-50 to-gray-100 py-16 opacity-0 translate-y-10">
-        <div class="container pt-12 pb-12">
+        class="bg-gradient-to-b from-gray-100 to-white py-20 opacity-0 translate-y-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             @foreach (\App\Models\About::where('name', ['Mission'])->get() as $about)
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
-                    <!-- Image (Overlapping) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative">
+                    <!-- Image -->
                     <div x-intersect="$el.classList.add('animate-item', 'fade-in')" x-intersect:delay="200"
-                        class="md:absolute md:left-0 md:w-1/2">
+                        class="relative overflow-hidden rounded-xl shadow-lg group">
                         <img src="{{ $about->img ? Storage::url($about->img) : asset('images/mission.jpg') }}"
-                            alt="Mission" class="w-full h-80 md:h-[28rem] object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                            alt="Mission" class="w-full h-64 sm:h-80 lg:h-96 object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                     <!-- Text Card -->
                     <div x-intersect="$el.classList.add('animate-item', 'fade-in')" x-intersect:delay="400"
-                        class="md:ml-auto md:w-2/3 bg-white rounded-lg p-8 shadow-sm">
-                        <h3 class="text-2xl font-medium text-blue-500 mb-4">رسالتنا</h3>
-                        <div class="text-charcoal text-lg leading-relaxed">
+                        class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-3xl font-semibold text-blue-600 mb-4">رسالتنا</h3>
+                        <div class="text-gray-700 text-lg leading-relaxed">
                             {!! $about->discription !!}
                         </div>
-
                     </div>
                 </div>
             @endforeach
         </div>
     </section>
 
-    <!-- Values and Goals Section (Including Vision) -->
+    <!-- Values and Goals Section (Including Vision with Images) -->
     <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
-        class="bg-white py-16 opacity-0 translate-y-10">
-        <div class="container">
-            <h2 class="text-4xl md:text-6xl font-semibold text-navy text-center mb-12">قيمنا وأهدافنا</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                <!-- Values Cards -->
+        class="bg-gray-50 py-20 opacity-0 translate-y-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl sm:text-5xl font-bold text-navy text-center mb-16">قيمنا وأهدافنا</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @foreach (\App\Models\About::whereIn('name', ['Vision', 'Values'])->orderBy('sort_id')->get() as $about)
                     <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
                         x-intersect:delay="{{ ($loop->index + 1) * 200 }}"
-                        class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
-                        <h3 class="text-xl font-medium text-navy mb-2 relative">
+                        class="relative bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden">
+                        <!-- Image -->
+                        <div class="relative mb-4">
+                            <img src="{{ $about->img ? Storage::url($about->img) : asset('images/' . ($about->name == 'Vision' ? 'vision.jpg' : 'values.jpg')) }}"
+                                alt="{{ $about->name }}" class="w-full h-48 object-cover rounded-lg transform group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <!-- Text -->
+                        <h3 class="text-xl font-semibold text-navy mb-3 relative">
                             @if ($about->name == 'Vision')
-                            رؤيتنا
+                                رؤيتنا
                             @else
-                            {{ $about->name == 'Success Standards' ? 'معايير النجاح' : 'قيمنا' }}
-
+                                {{ $about->name == 'Success Standards' ? 'معايير النجاح' : 'قيمنا' }}
                             @endif
-                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
                         </h3>
-                        <div class="text-charcoal text-base leading-relaxed">
+                        <div class="text-gray-700 text-base leading-relaxed">
                             {!! $about->discription !!}
                         </div>
                     </div>
@@ -85,33 +88,34 @@
         </div>
     </section>
 
-    <!-- Work Environment Section (New Design) -->
+    <!-- Work Environment Section -->
     <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
-        class="relative py-16 opacity-0 translate-y-10">
-        <div class="absolute inset-0 bg-navy md:bg-gradient-to-r md:from-navy md:to-white"></div>
-        <div class="container relative z-10">
-            <h2 class="text-4xl md:text-6xl font-semibold text-white md:text-navy text-center mb-12">بيئة العمل</h2>
+        class="relative py-20 opacity-0 translate-y-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-navy to-blue-900/90"></div>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-4xl sm:text-5xl font-bold text-white text-center mb-16">بيئة العمل</h2>
             @foreach (\App\Models\About::where('name', 'Work Environment')->get() as $about)
-                <div class="flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex flex-col lg:flex-row gap-10 items-center">
                     <!-- Text -->
                     <div x-intersect="$el.classList.add('animate-item', 'fade-in')" x-intersect:delay="200"
-                        class="md:w-1/2 bg-white rounded-lg p-8 shadow-md">
-                        <h3 class="text-2xl font-medium text-blue-500 mb-4">بيئة عمل محفزة</h3>
-                        <div class="text-charcoal text-lg leading-relaxed">
+                        class="lg:w-1/2 bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-3xl font-semibold text-blue-600 mb-4">بيئة عمل محفزة</h3>
+                        <div class="text-gray-700 text-lg leading-relaxed">
                             {!! $about->discription !!}
                         </div>
                         <div class="mt-6">
                             <a href="{{ route('contact') }}"
-                                class="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg hover:scale-105 transition-all duration-300">
+                                class="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300">
                                 تواصل معنا
                             </a>
                         </div>
                     </div>
                     <!-- Image -->
                     <div x-intersect="$el.classList.add('animate-item', 'fade-in')" x-intersect:delay="400"
-                        class="md:w-1/2">
+                        class="lg:w-1/2 relative overflow-hidden rounded-xl shadow-lg group">
                         <img src="{{ $about->img ? Storage::url($about->img) : asset('images/work-environment.jpg') }}"
-                            alt="Work Environment" class="w-full h-[32rem] object-cover rounded-lg shadow-md hover:rotate-2 transition-transform duration-300">
+                            alt="Work Environment" class="w-full h-64 sm:h-80 lg:h-96 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                 </div>
             @endforeach
@@ -120,24 +124,24 @@
 
     <!-- Partners Section -->
     <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
-        class="bg-white py-16 opacity-0 translate-y-10">
-        <div class="container text-center">
-            <h2 class="text-4xl md:text-6xl font-semibold text-navy mb-12">شركائنا</h2>
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        class="bg-white py-20 opacity-0 translate-y-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl sm:text-5xl font-bold text-navy mb-16">شركائنا</h2>
+            <div class="bg-gray-50 rounded-xl shadow-lg overflow-hidden py-6">
                 <div class="flex animate-continuous-slide" x-data="{ pause: false }" @mouseenter="pause = true"
                     @mouseleave="pause = false">
                     <!-- Logos (Repeated for seamless loop) -->
-                    <div class="flex flex-shrink-0">
+                    <div class="flex flex-shrink-0 space-x-8">
                         @foreach ($partners as $partner)
                             <img src="{{ Storage::url($partner->img) }}" alt="{{ $partner->name ?? 'Partner' }}"
-                                class="h-16 mx-6 filter grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300">
+                                class="h-20 mx-4 filter grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300">
                         @endforeach
                     </div>
                     <!-- Duplicate Logos for Continuous Effect -->
-                    <div class="flex flex-shrink-0">
+                    <div class="flex flex-shrink-0 space-x-8">
                         @foreach ($partners as $partner)
                             <img src="{{ Storage::url($partner->img) }}" alt="{{ $partner->name ?? 'Partner' }}"
-                                class="h-16 mx-6 filter grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300">
+                                class="h-20 mx-4 filter grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300">
                         @endforeach
                     </div>
                 </div>
@@ -145,14 +149,16 @@
         </div>
     </section>
 
-    <!-- Custom Animations and Styles -->
+    <!-- Updated Styles -->
     <style>
         :root {
             --navy: #1e3a8a;
-            --blue-500: #d4af37;
-            --blue-600: #b8972e;
-            --charcoal: #374151;
-            --gray-50: #f1f5f9;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-700: #4b5563;
+            --white: #ffffff;
         }
 
         .bg-navy {
@@ -163,26 +169,31 @@
             color: var(--navy);
         }
 
-        .text-blue-500 {
-            color: var(--blue-500);
-        }
-
-        .bg-blue-500 {
-            background-color: var(--blue-500);
+        .text-blue-600 {
+            color: var(--blue-600);
         }
 
         .bg-blue-600 {
             background-color: var(--blue-600);
         }
 
-        .text-charcoal {
-            color: var(--charcoal);
+        .bg-blue-700 {
+            background-color: var(--blue-700);
+        }
+
+        .text-gray-700 {
+            color: var(--gray-700);
         }
 
         .bg-gray-50 {
             background-color: var(--gray-50);
         }
 
+        .bg-gray-100 {
+            background-color: var(--gray-100);
+        }
+
+        /* Animations */
         @keyframes fade-in-slide-up {
             from {
                 transform: translateY(20px);
@@ -236,7 +247,7 @@
         }
 
         .animate-continuous-slide {
-            animation: continuous-slide 30s linear infinite;
+            animation: continuous-slide 25s linear infinite;
         }
 
         .animate-continuous-slide[x-data="{ pause: true }"] {
@@ -247,10 +258,28 @@
             animation-direction: reverse;
         }
 
-        /* Parallax */
-        .parallax-bg {
-            will-change: transform;
-            transition: transform 0.5s ease-out;
+        /* Typography */
+        h2, h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            .h-64 {
+                height: 16rem;
+            }
+            .h-80 {
+                height: 20rem;
+            }
+            .h-96 {
+                height: 24rem;
+            }
         }
 
         /* RTL Adjustments */
@@ -258,27 +287,9 @@
             text-align: right;
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 640px) {
-            .h-80 {
-                height: 16rem;
-            }
-            .h-\[32rem\] {
-                height: 20rem;
-            }
-            .md\:h-\[28rem\] {
-                height: 20rem;
-            }
-        }
-
-        /* Disable Parallax on Mobile */
-        @media (max-width: 768px) {
-            .parallax-bg {
-                background-attachment: scroll !important;
-            }
-            .md\:bg-gradient-to-r {
-                background: var(--navy);
-            }
+        [dir="rtl"] .group:hover .w-0 {
+            right: 0;
+            left: auto;
         }
 
         /* Reduced Motion */
@@ -294,7 +305,7 @@
         }
     </style>
 
-    <!-- Alpine.js and Parallax Script -->
+    <!-- Alpine.js and Parallax Script (Unchanged) -->
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.directive('intersect', (el, { value, expression }, { evaluate, cleanup }) => {
@@ -311,21 +322,6 @@
                 }, { threshold: 0.1 });
                 observer.observe(el);
                 cleanup(() => observer.disconnect());
-            });
-        });
-
-        // Parallax Effect
-        document.addEventListener('DOMContentLoaded', () => {
-            const parallaxSections = document.querySelectorAll('[data-parallax]');
-            parallaxSections.forEach(section => {
-                const bg = section.querySelector('.parallax-bg');
-                window.addEventListener('scroll', () => {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top < window.innerHeight && rect.bottom > 0) {
-                        const offset = window.pageYOffset - section.offsetTop;
-                        bg.style.transform = `translateY(${offset * 0.3}px)`;
-                    }
-                });
             });
         });
     </script>

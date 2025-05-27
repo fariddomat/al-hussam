@@ -37,16 +37,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('noty/noty.css') }}">
     <script src="{{ asset('noty/noty.min.js') }}" defer></script>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.css" integrity="sha512-pmAAV1X4Nh5jA9m+jcvwJXFQvCBi3T17aZ1KWkqXr7g/O2YMvO8rfaa5ETWDuBvRq6fbDjlw4jHL44jNTScaKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
+        integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.css"
+        integrity="sha512-pmAAV1X4Nh5jA9m+jcvwJXFQvCBi3T17aZ1KWkqXr7g/O2YMvO8rfaa5ETWDuBvRq6fbDjlw4jHL44jNTScaKg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -61,42 +67,48 @@
 
     <div class="flex flex-col min-h-screen" x-data="{ menuOpen: false, searchOpen: false, contactOpen: false }">
         <!-- Fixed Header -->
-        <header class="header fixed top-0 left-0 right-0 z-50  flex items-center justify-center bg-transparent transition-all duration-300">
+        <header
+            class="header fixed top-0 left-0 right-0 z-50  flex items-center justify-center bg-transparent transition-all duration-300">
             <div class="container flex justify-between items-center">
                 <!-- Right Side (Visual Left in RTL): Logo and Navigation Links -->
                 <div class="flex items-center space-x-6 space-x-reverse">
                     <!-- Logo -->
                     <a href="{{ route('home') }}">
                         <img src="{{ Storage::url($info?->logo) }}" alt="Al Hussam Logo"
-                            class="header-logo h-20 md:h-[6rem] w-20 md:w-[6rem] transition-transform duration-300" />
+                            class="header-logo h-16  w-16  transition-transform duration-300" />
                     </a>
                     <!-- Desktop Navigation -->
                     <nav class="hidden md:flex space-x-6 space-x-reverse nav-items" dir="ltr">
                         <a href="{{ route('home') }}"
                             class="nav-link hover:text-gray-200 transition-colors duration-200 {{ request()->is('/') ? 'active' : '' }}"
                             wire:navigate aria-label="home">الرئيسية</a>
-                        <a href="{{ route('about') }}" class="nav-link hover:text-gray-200 transition-colors duration-200"
-                            wire:navigate aria-label="about">من نحن</a>
+                        <a href="{{ route('about') }}"
+                            class="nav-link hover:text-gray-200 transition-colors duration-200" wire:navigate
+                            aria-label="about">من نحن</a>
+                             <div x-data="{ open: false }" class="relative">
+                            <a href="{{ route('projects') }}" @mouseover="open = true"
+                                @click.away="open = false"
+                                class="nav-link hover:text-gray-200 transition-colors duration-500 flex items-center"
+                                aria-label="projects">
+                                {{-- <i class="fas fa-chevron-down mr-1"></i> --}}
+                                المشاريع
+                            </a>
+                            {{-- <div x-show="open" @mouseover="open = true" @mouseleave="open = false"
+                                class="absolute top-full right-0 mt-2 bg-white text-gray-900 rounded-md shadow-lg w-48">
+                                @foreach (\App\Models\ProjectCategory::all() as $item)
+                                    <a href="{{ route('projects', $item) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100 hover:text-black"
+                                        aria-label="project {{ $item->name }}">{{ $item->name }}</a>
+                                @endforeach
+                            </div> --}}
+                        </div>
                         <a href="{{ route('services') }}"
                             class="nav-link hover:text-gray-200 transition-colors duration-200" wire:navigate
                             aria-label="service">خدماتنا</a>
-                        <div x-data="{ open: false }" class="relative">
-                            <a href="{{ route('project-categories') }}" @mouseover="open = true" @click.away="open = false"
-                                class="nav-link hover:text-gray-200 transition-colors duration-500 flex items-center"
-                                aria-label="projects"><i class="fas fa-chevron-down mr-1"></i>
-                                المشاريع
-                            </a>
-                            <div x-show="open" @mouseover="open = true" @mouseleave="open = false"
-                                class="absolute top-full right-0 mt-2 bg-white text-gray-900 rounded-md shadow-lg w-48">
-                                @foreach (\App\Models\ProjectCategory::all() as $item)
-                                    <a href="{{ route('projects', $item) }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-black"
-                                         aria-label="project {{ $item->name }}">{{ $item->name }}</a>
-                                @endforeach
-                            </div>
-                        </div>
+
                         <a href="{{ route('blogs.index') }}"
                             class="nav-link hover:text-gray-200 transition-colors duration-200" wire:navigate
-                            aria-label="blogs">الأخبار</a>
+                            aria-label="blogs">المدونة</a>
                     </nav>
                 </div>
 
@@ -107,8 +119,7 @@
                         تواصل معنا
                     </button>
                     <a href="https://wa.me/+966{{ \App\Models\SocialMedia::where('name', 'whatsapp')->first()?->link }}"
-                        target="_blank"
-                        class="flex items-center hover:text-gray-200 transition-colors duration-200"
+                        target="_blank" class="flex items-center hover:text-gray-200 transition-colors duration-200"
                         aria-label="whatsapp">
                         <i class="fab fa-whatsapp text-xl"></i>
                     </a>
@@ -120,8 +131,7 @@
                 <!-- Mobile Menu Button and Icons -->
                 <div class="flex md:hidden items-center space-x-3 space-x-reverse">
                     <a href="https://wa.me/+966{{ \App\Models\SocialMedia::where('name', 'whatsapp')->first()?->link }}"
-                        target="_blank"
-                        class="flex items-center hover:text-gray-200 transition-colors duration-200"
+                        target="_blank" class="flex items-center hover:text-gray-200 transition-colors duration-200"
                         aria-label="whatsapp">
                         <i class="fab fa-whatsapp text-xl"></i>
                     </a>
@@ -197,16 +207,18 @@
                     @csrf
                     <!-- Name -->
                     <div>
-                        <label for="name" class="block text-navymb-1">الاسم <span class="text-red-500">*</span></label>
+                        <label for="name" class="block text-navymb-1">الاسم <span
+                                class="text-red-500">*</span></label>
                         <input name="name" id="name" type="text" value="{{ old('name') }}"
                             class="w-full p-3 pt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('name') border-red-500 @enderror">
-                        @error('name')
+
+                            @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <!-- Email -->
                     <div>
-                        <label for="email" class="block text-navymb-1">البريد الإلكتروني <span class="text-red-500">*</span></label>
+                        <label for="email" class="block text-navymb-1">البريد الإلكتروني </label>
                         <input name="email" id="email" type="email" value="{{ old('email') }}"
                             class="w-full p-3 pt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('email') border-red-500 @enderror">
                         @error('email')
@@ -215,7 +227,8 @@
                     </div>
                     <!-- Phone -->
                     <div>
-                        <label for="phone" class="block text-navymb-1">رقم الهاتف <span class="text-red-500">*</span></label>
+                        <label for="phone" class="block text-navymb-1">رقم الهاتف <span
+                                class="text-red-500">*</span></label>
                         <input name="phone" id="phone" type="text" value="{{ old('phone') }}"
                             class="w-full p-3 pt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('phone') border-red-500 @enderror">
                         @error('phone')
@@ -224,12 +237,15 @@
                     </div>
                     <!-- Project -->
                     <div>
-                        <label for="project_id" class="block text-navymb-1">المشروع <span class="text-red-500">*</span></label>
+                        <label for="project_id" class="block text-navymb-1">المشروع <span
+                                class="text-red-500">*</span></label>
                         <select name="project_id" id="project_id"
                             class="w-full p-3 pt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('project_id') border-red-500 @enderror">
                             <option value="">اختر المشروع</option>
                             @foreach ($projects ?? \App\Models\Project::all() as $project)
-                                <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>{{ $project->name }}</option>
+                                <option value="{{ $project->id }}"
+                                    {{ old('project_id') == $project->id ? 'selected' : '' }}>{{ $project->name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('project_id')
@@ -238,7 +254,7 @@
                     </div>
                     <!-- Message -->
                     <div>
-                        <label for="message" class="block text-navymb-1">الرسالة <span class="text-red-500">*</span></label>
+                        <label for="message" class="block text-navymb-1">الرسالة /label>
                         <textarea name="message" id="message" rows="2"
                             class="w-full p-3 pt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
                         @error('message')
@@ -257,8 +273,8 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="mobile-menu fixed top-0 right-0  w-64 bg-gray-900 text-white p-6 md:hidden z-50"
-            x-show="menuOpen" x-bind:class="{ 'open': menuOpen }">
+        <div class="mobile-menu fixed top-0 right-0  w-64 bg-gray-900 text-white p-6 md:hidden z-50" x-show="menuOpen"
+            x-bind:class="{ 'open': menuOpen }">
             <button class="absolute top-4 left-4" @click="menuOpen = false" aria-label="menu exit">
                 <i class="fas fa-times text-2xl"></i>
             </button>
@@ -270,7 +286,9 @@
                     aria-label="about">نبذة عنا</a>
                 <a href="{{ route('services') }}" class="block hover:text-gray-300" wire:navigate
                     aria-label="services">خدماتنا</a>
-                <div x-data="{ open: false }">
+                <a href="{{ route('projects') }}" class="block hover:text-gray-300" wire:navigate
+                    aria-label="services">المشاريع</a>
+                {{-- <div x-data="{ open: false }">
                     <button @click="open = !open" class="block hover:text-gray-300 flex justify-between w-full"
                         aria-label="project open">
                         المشاريع
@@ -282,7 +300,7 @@
                                 aria-label="project {{ $item->name }}">{{ $item->name }}</a>
                         @endforeach
                     </div>
-                </div>
+                </div> --}}
                 <a href="{{ route('blogs.index') }}" class="block hover:text-gray-300" wire:navigate
                     aria-label="blogs">الأخبار</a>
                 <button @click="contactOpen = true" class="block hover:text-gray-300 text-left"
@@ -295,32 +313,41 @@
             {{ $slot }}
         </main>
         <!-- Footer -->
-        <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 390" xmlns="http://www.w3.org/2000/svg" class="transition duration-300 ease-in-out delay-150">
+        <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 390" xmlns="http://www.w3.org/2000/svg"
+            class="transition duration-300 ease-in-out delay-150">
             <style>
                 .path-0 {
                     animation: pathAnim-0 4s;
                     animation-timing-function: linear;
                     animation-iteration-count: infinite;
                 }
+
                 @keyframes pathAnim-0 {
                     0% {
                         d: path("M 0,400 L 0,150 C 120,120.07142857142857 240,90.14285714285714 373,94 C 506,97.85714285714286 652.0000000000001,135.5 772,168 C 891.9999999999999,200.5 986,227.85714285714283 1093,224 C 1200,220.14285714285717 1320,185.07142857142858 1440,150 L 1440,400 L 0,400 Z");
                     }
+
                     25% {
                         d: path("M 0,400 L 0,150 C 141.53571428571428,167.28571428571428 283.07142857142856,184.57142857142858 404,166 C 524.9285714285714,147.42857142857142 625.25,93 738,87 C 850.75,81 975.9285714285716,123.42857142857144 1095,142 C 1214.0714285714284,160.57142857142856 1327.0357142857142,155.28571428571428 1440,150 L 1440,400 L 0,400 Z");
                     }
+
                     50% {
                         d: path("M 0,400 L 0,150 C 102,139.85714285714286 204,129.71428571428572 341,119 C 478,108.28571428571429 650,97 767,122 C 884,147 946,208.28571428571428 1049,219 C 1152,229.71428571428572 1296,189.85714285714286 1440,150 L 1440,400 L 0,400 Z");
                     }
+
                     75% {
                         d: path("M 0,400 L 0,150 C 146.03571428571428,173.67857142857144 292.07142857142856,197.35714285714286 422,192 C 551.9285714285714,186.64285714285714 665.7499999999999,152.25 783,152 C 900.2500000000001,151.75 1020.9285714285713,185.64285714285717 1131,191 C 1241.0714285714287,196.35714285714283 1340.5357142857142,173.178571428Steve Jobs57142 1440,150 L 1440,400 L 0,400 Z");
                     }
+
                     100% {
                         d: path("M 0,400 L 0,150 C 120,120.07142857142857 240,90.14285714285714 373,94 C 506,97.85714285714286 652.0000000000001,135.5 772,168 C 891.9999999999999,200.5 986,227.85714285714283 1093,224 C 1200,220.14285714285717 1320,185.07142857142858 1440,150 L 1440,400 L 0,400 Z");
                     }
                 }
             </style>
-            <path d="M 0,400 L 0,150 C 120,120.07142857142857 240,90.14285714285714 373,94 C 506,97.85714285714286 652.0000000000001,135.5 772,168 C 891.9999999999999,200.5 986,227.85714285714283 1093,224 C 1200,220.14285714285717 1320,185.07142857142858 1440,150 L 1440,400 L 0,400 Z" stroke="none" stroke-width="0" fill="#25b2d9" fill-opacity="1" class="transition-all duration-300 ease-in-out delay-150 path-0"></path>
+            <path
+                d="M 0,400 L 0,150 C 120,120.07142857142857 240,90.14285714285714 373,94 C 506,97.85714285714286 652.0000000000001,135.5 772,168 C 891.9999999999999,200.5 986,227.85714285714283 1093,224 C 1200,220.14285714285717 1320,185.07142857142858 1440,150 L 1440,400 L 0,400 Z"
+                stroke="none" stroke-width="0" fill="#25b2d9" fill-opacity="1"
+                class="transition-all duration-300 ease-in-out delay-150 path-0"></path>
         </svg>
         <footer class="footer pb-12">
             <div class="container grid grid-cols-1 md:grid-cols-3 gap-40">
@@ -336,10 +363,6 @@
 
                                 <li><a href="{{ route('about') }}" class="hover:text-gray-300" wire:navigate
                                         aria-label="blogs">من نحن</a></li>
-                                <li><a href="{{ route('project-categories') }}" class="hover:text-gray-300" wire:navigate
-                                        aria-label="blogs">المشاريع</a></li>
-                                <li><a href="{{ route('blogs.index') }}" class="hover:text-gray-300" wire:navigate
-                                        aria-label="blogs">المدونة</a></li>
                                 <li><a href="{{ route('services') }}" class="hover:text-gray-300" wire:navigate
                                         aria-label="blogs">الخدمات</a></li>
                                 <li><a href="{{ route('privacy') }}" class="hover:text-gray-300" wire:navigate
@@ -359,7 +382,8 @@
                     <div class="mt-4 flex space-x-4 space-x-reverse">
                         @foreach (\App\Models\SocialMedia::all() as $item)
                             <a href="{{ $item->link }}" class="hover:text-gray-300"
-                                aria-label="{{ $item->name }}"><i class="fab {{ $item->icon }}" style="font-size: 2rem"></i></a>
+                                aria-label="{{ $item->name }}"><i class="fab {{ $item->icon }}"
+                                    style="font-size: 2rem"></i></a>
                         @endforeach
                     </div>
                     <h3 class="text-xl font-bold mb-4 mt-2">سجل معنا ك مسوق :
@@ -368,28 +392,28 @@
                         class="space-y-4">
                         @csrf
                         <div class="relative">
-                            <input type="text" name="mobile" id="mobile" placeholder="أدخل رقم هاتفك "
-                                class="w-full p-3 pt-1 pr-10 border border-gray-200 rounded-lg bg-gray-100 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" name="mobile" id="mobile" placeholder="أدخل رقم هاتفك"
+                                class="w-full p-3 pl-28 border border-gray-200 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <i
-                                class="fas fa-phone absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                class="fas fa-phone absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <button type="submit"
+                                class="absolute left-2 top-1/2 transform -translate-y-1/2 px-4 py-1 bg-black text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300"
+                                aria-label="newsletter">
+                                سجل الآن
+                            </button>
                         </div>
-                        <button type="submit"
-                            class="w-full p-3 pt-1 bg-black text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300"
-                            aria-label="newsletter">
-                            سجل الآن
-                        </button>
                     </form>
                 </div>
                 <!-- Column 4: Contact Info -->
                 <div>
                     <h3 class="text-xl font-bold mb-4">معلومات التواصل</h3>
-                    <ul class="space-y-2 text-gray-300">
-                        <li style="font-size: 1.8rem"><i class="fas fa-phone mr-2 mt-2 mb-2"></i> <a
+                    <ul class="space-y-2 text-white">
+                        <li style="font-size: 1rem"><i class="fas fa-phone mr-2 mt-2 mb-2"></i> <a
                                 href="tel:{{ $info?->phone_1 }}">{{ $info?->phone_1 }}</a></li>
-                        <li style="font-size: 1.8rem"><i class="fas fa-envelope mr-2  mt-2 mb-2"></i> <a
+                        <li style="font-size: 1rem"><i class="fas fa-envelope mr-2  mt-2 mb-2"></i> <a
                                 href="mailto:{{ $info?->email }}">{{ $info?->email }}</a></li>
-                        <li style="font-size: 1.8rem"><i class="fas fa-map-marker-alt mr-2"  mt-2 mb-2></i> <a
-                                href="https://maps.app.goo.gl/A4gsfTKovA1jVgni8"> {{ $info?->location }}</a></li>
+                        <li style="font-size: 1rem"><i class="fas fa-map-marker-alt mr-2" mt-2 mb-2></i> <a
+                                href="https://maps.app.goo.gl/8nj2F8jSgBz9pJHz5"> {{ $info?->location }}</a></li>
                     </ul>
 
                 </div>
@@ -450,4 +474,5 @@
         });
     </script>
 </body>
+
 </html>

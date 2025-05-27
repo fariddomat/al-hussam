@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ViewErrorBag;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
 
     Schema::defaultStringLength(191);
+    view()->share('errors', new ViewErrorBag);
     }
 }

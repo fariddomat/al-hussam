@@ -62,7 +62,7 @@
                         class="project-card bg-white shadow-md transition-all duration-300 overflow-hidden relative"
                         :class="{
                             'h-16 md:h-20': activeProject !== {{ $index }} && activeProject !== null,
-                            'h-32 md:h-40': activeProject === null,
+                            'h-32 md:h-32': activeProject === null,
                             'h-64 md:h-80': activeProject === {{ $index }}
                         }">
                         <!-- Image -->
@@ -96,10 +96,10 @@
                             @endswitch
                         </div>
                         <!-- Project Info (Visible in Collapsed and Default States) -->
-                        <div class="absolute bottom-0 right-0 w-full h-8 bg-transperent flex items-center justify-between px-4"
+                        <div class="absolute bottom-2 right-0 w-full h-8 bg-transperent flex items-center justify-between px-4"
                             :class="{ 'opacity-100': activeProject !== {{ $index }}, 'opacity-0': activeProject ===
                                     {{ $index }} }">
-                            <h3 class="text-lg font-bold text-black">{{ $project->name }}</h3>
+                            <h3 class="text-lg font-bold text-white">{{ $project->name }}</h3>
                             <span class="text-sm text-black">{{ $project->ProjectCategory->name }}</span>
                         </div>
                         <!-- Expanded Content (Visible on Hover) -->
@@ -221,15 +221,15 @@
         class="bg-gray-900 py-16 opacity-0 translate-y-10">
         <div class="container">
             <h2 class="text-4xl md:text-6xl font-semibold text-white text-center mb-12 tracking-tight transition-transform duration-500 ease-in-out transform hover:scale-105">
-                الضمانات
+                ما يميزنا
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Featured Image -->
                 <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
                     class="material-card bg-white rounded-xl shadow-md overflow-hidden opacity-0 scale-95">
-                    <img src="{{asset('images/sections/Real-estate-broker-3.jpg')}}"
+                    <img src="{{asset('images/sections/ما يميزنا ٠- هوم بيج-min.jpg')}}"
                          alt="image"
-                         class="w-full h-96 md:h-full object-cover hover:scale-105 transition-transform duration-300">
+                         class="w-screen h-full max-h-[21rem] object-cover hover:scale-105 transition-transform duration-300">
                 </div>
                 <!-- Guarantee Cards -->
                 <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
@@ -277,7 +277,8 @@
     </section>
 
     <!-- Blogs Section -->
-    <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
+    @if ($blogs->count() > 0)
+<section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
         class="relative bg-white py-16 overflow-hidden" dir="rtl">
         <div class="container mx-auto px-4 text-center">
             <!-- Title -->
@@ -329,6 +330,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <!-- Features Section (Counters) -->
     <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"

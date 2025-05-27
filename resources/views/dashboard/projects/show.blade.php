@@ -19,7 +19,7 @@
                         class="inline-block px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700">
                         @lang('site.download_pdf')
                     </a>
-                     <a href="{{ route('dashboard.projects.project_pdf2s.index', $project) }}"
+                    <a href="{{ route('dashboard.projects.project_pdf2s.index', $project) }}"
                         class="inline-block px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700">
                         التصاميم ثلاثية الابعاد
                     </a>
@@ -78,6 +78,10 @@
                 @endisset
             </div>
             <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">عرض في الصفحة الرئيسية</label>
+                <p class="text-gray-900">{{ $project->show_home ? 'نعم' : 'لا' }}</p>
+            </div>
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <p class="text-gray-900">{{ $project->status ?? '—' }}</p>
             </div>
@@ -111,8 +115,6 @@
                     <p class="text-gray-900">—</p>
                 @endif
             </div>
-
-
 
             <a href="{{ route('dashboard.projects.index') }}"
                 class="mt-4 inline-block px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-700">

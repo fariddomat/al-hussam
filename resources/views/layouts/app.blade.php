@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-@php
+    @php
         $info = \App\Models\Info::first();
     @endphp
     <!-- Favicon -->
@@ -95,6 +95,10 @@
             :class="open ? 'translate-x-0' : '-translate-x-64 md:translate-x-0'">
             <h2 class="text-xl font-bold mb-4">@lang('site.control_panel')</h2>
 
+            <x-responsive-nav-link href="{{ route('home') }}" >
+                الموقع <img src="{{ Storage::url($info?->logo) }}" alt="Al Hussam Logo"
+                    class="h-8  w-8  transition-transform duration-300" />
+            </x-responsive-nav-link>
             <nav class="mt-5 space-y-3">
                 <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     @lang('site.home') <i class="fas fa-home"></i>
@@ -124,8 +128,10 @@
 
                 <!-- Services Group -->
                 @php
-                    $isServiceActive = Str::startsWith(request()->route()->getName(), ['dashboard.services.',
-                'dashboard.orders.']);
+                    $isServiceActive = Str::startsWith(request()->route()->getName(), [
+                        'dashboard.services.',
+                        'dashboard.orders.',
+                    ]);
                 @endphp
                 <details class="group" {{ $isServiceActive ? 'open' : '' }}>
                     <summary
@@ -373,7 +379,7 @@
                 // Assign a unique ID if none exists
                 if (!this.id) {
                     this.id = 'textarea-' + index + '-' + Math.random().toString(36).substr(2,
-                    9); // Unique ID
+                        9); // Unique ID
                 }
 
                 // Initialize CKEditor only if not already initialized
