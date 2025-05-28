@@ -119,6 +119,9 @@ Route::prefix('dashboard')
         Route::resource('/sliders', \App\Http\Controllers\Dashboard\SliderController::class);
         Route::post('/sliders/{id}/restore', [\App\Http\Controllers\Dashboard\SliderController::class, 'restore'])->name('sliders.restore');
 
+        Route::post('/sliders/reorder', [App\Http\Controllers\Dashboard\SliderController::class, 'reorder'])->name('sliders.reorder');
+
+        
         Route::resource('/abouts', \App\Http\Controllers\Dashboard\AboutController::class);
         Route::post('/abouts/{id}/restore', [\App\Http\Controllers\Dashboard\AboutController::class, 'restore'])->name('abouts.restore');
 

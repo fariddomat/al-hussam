@@ -16,7 +16,11 @@ class SliderController extends Controller
 
     public function index()
     {
-        $sliders = \App\Models\Slider::all();
+
+        $sliders = \App\Models\Slider::orderBy('order_num')->get();
+//         foreach ($sliders as $index => $slider) {
+//     $slider->update(['order_num' => $index + 1]);
+// }
         return view('dashboard.sliders.index', compact('sliders'));
     }
 
@@ -36,6 +40,9 @@ class SliderController extends Controller
                 if ($request->hasFile('img')) {
             $validated['img'] = $request->file('img')->store('public/imgs');
         }
+
+         $maxOrder = Slider::max('order_num') ?? 0;
+        $validated['order_num'] = $maxOrder + 1;
 
         $slider = \App\Models\Slider::create($validated);
 
@@ -85,5 +92,19 @@ class SliderController extends Controller
         $slider = \App\Models\Slider::withTrashed()->findOrFail($id);
         $slider->restore();
         return redirect()->route('dashboard.sliders.index')->with('success', 'Slider restored successfully.');
+    }
+    public function reorder(Request $request)
+    {
+        $request->validate([
+            'order' => 'required|array',
+            'order.*.id' => 'required|exists:sliders,id',
+            'order.*.order_num' => 'nullable|integer|min:0',
+        ]);
+
+        foreach ($request->order as $index => $item) {
+            \App\Models\Slider::where('id', $item['id'])->update(['order_num' => $index + 1]);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Order updated successfully']);
     }
 }

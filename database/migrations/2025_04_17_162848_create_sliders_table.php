@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->integer('order_num')->nullable();
             $table->string('img');
             $table->softDeletes();
             $table->timestamps();

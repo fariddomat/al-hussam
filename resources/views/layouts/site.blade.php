@@ -9,7 +9,7 @@
     @php
         $info = \App\Models\Info::first();
     @endphp
-    <meta name="description" content="{{ strip_tags($info?->description) }} ">
+    <meta name="description" content="{{ $metaDescription ?? strip_tags($info->description) }} ">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ Storage::url($info?->logo_2) }}">
@@ -28,7 +28,7 @@
     <meta name="twitter:description" content="{{ strip_tags($info?->description) }} ">
     <meta name="twitter:image" content="{{ Storage::url($info?->logo_2) }}">
 
-    <title>{{ $info?->name }}</title>
+    <title>{{ $metaTitle ?? $info->name }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

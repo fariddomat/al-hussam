@@ -290,5 +290,6 @@ return [
     'no_description' => 'لا يوجد وصف متاح',
     'additional_info' => 'تواصل معنا لمزيد من التفاصيل',
     'back'=>'رجوع',
+    'order_num'=>'الترتيب'
 
 ];

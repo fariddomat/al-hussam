@@ -32,7 +32,7 @@ class SiteController extends Controller
 public function home()
 {
     try {
-        $sliders = Slider::all()->map(fn($slider) => [
+        $sliders = Slider::orderBy('order_num')->get()->map(fn($slider) => [
             'image' => $slider->img ? Storage::url($slider->img) : asset('images/default-slider.jpg'),
             'text' => htmlspecialchars($slider->title ?? 'بدون عنوان', ENT_QUOTES, 'UTF-8'),
             'description' => $slider->description ? strip_tags($slider->description) : 'بدون وصف' // Sanitize HTML

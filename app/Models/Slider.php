@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Slider extends Model
 {
-    
+
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'img'];
+    protected $fillable = ['title', 'description', 'img', 'order_num'];
 
     public static function rules()
     {

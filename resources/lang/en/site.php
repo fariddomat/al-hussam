@@ -167,4 +167,5 @@ return [
     'youtube'=>'youtube',
     'code'=>'code',
     'back'=>'Back',
+    'order_num'=>'Order number',
 ];
