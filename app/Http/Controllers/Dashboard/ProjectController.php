@@ -131,6 +131,9 @@ class ProjectController extends Controller
             $validated['images'] = array_map(fn($file) => $file->store('public/images'), $request->file('images'));
         }
 
+        if(!$request->show_home){
+            $validated['show_home'] =0;
+        }
         $project->update($validated);
 
         return redirect()->route('dashboard.projects.index')->with('success', 'Project updated successfully.');

@@ -10,7 +10,7 @@ class Project extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['name', 'slug', 'date_of_build', 'address', 'address_location', 'virtual_location', 'scheme_name', 'floors_count', 'details', 'img', 'cover_img', 'status', 'status_percent', 'project_category_id', 'sort_id', 'images'];
+    protected $fillable = ['name', 'slug', 'date_of_build', 'address', 'address_location', 'virtual_location', 'scheme_name', 'floors_count', 'details', 'img', 'cover_img', 'status', 'status_percent', 'project_category_id', 'sort_id', 'images', 'show_home'];
 
     public static function rules()
     {

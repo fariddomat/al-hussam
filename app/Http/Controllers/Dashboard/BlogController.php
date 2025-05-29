@@ -112,6 +112,13 @@ class BlogController extends Controller
             if ($blog->author_image) Storage::delete($blog->author_image);
         }
 
+        if(!$request->showed){
+            $validated['showed'] =0;
+        }
+        if(!$request->show_at_home){
+            $validated['show_at_home'] =0;
+        }
+
         $blog->update($validated);
 
         return redirect()->route('dashboard.blogs.index')->with('success', 'Blog updated successfully.');

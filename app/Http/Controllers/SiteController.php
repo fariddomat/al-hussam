@@ -25,6 +25,8 @@ use App\Models\Why;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Mail;
+
 class SiteController extends Controller
 {
     // Home
@@ -39,7 +41,7 @@ public function home()
             // Alternative without DOMPurify: 'description' => $slider->description ?? 'بدون وصف'
         ]);
         $blogs = Blog::where('show_at_home', true)->take(3)->get();
-        $projects = Project::where('status', 'done')->take(3)->get();
+        $projects = Project::where('show_home', '1')->take(3)->get();
         $services = Service::take(5)->get();
         $steps = Step::get()->map(fn($step) => [
             'icon' => $step->icon ?? '',
@@ -117,15 +119,14 @@ public function home()
     }
 
     // Projects
-    public function projects($category)
+    public function projects()
     {
-        $projects = Project::where('project_category_id', $category)
-            ->with('projectCategory')
+        $projects = Project::with('projectCategory')
             ->paginate(9);
         $categories = ProjectCategory::all();
-        $category = ProjectCategory::where('id', $category)->first();
+        // $category = ProjectCategory::where('id', $category)->first();
 
-        return view('home.projects', compact('projects', 'categories', 'category'));
+        return view('home.projects', compact('projects', 'categories'));
     }
 
     public function projectShow($slug)
@@ -207,6 +208,26 @@ public function home()
 
         ContactUs::create($validated);
 
+        $project=Project::where('id', $request->project_id)->first();
+        $info = [
+            'title' => 'لديك طلب تواصل جديد',
+            'name' => $request->name,
+            'email' => $request->email ?? 'غير متوفر', // التحقق من وجود البريد الإلكتروني
+            'phone' => $request->phone,
+            'project' => $project ? $project->name : 'غير متوفر',
+            'data' => $request->message,
+        ];
+
+         try {
+            Mail::send('mail', $info, function ($message) {
+                $message->to("info@alhussam11.com", "alhussam11 Info")
+                    ->subject('New Contact');
+                $message->from('support@alhussam11.com', 'alhussam11 Support');
+            });
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         return redirect()->route('contact')->with('success', 'تم إرسال استفسارك بنجاح!');
     }
 
@@ -225,6 +246,8 @@ public function home()
                 'message' => $validator->errors()->first(),
             ]);
         }
+
+
 
         NewsLetter::create([
             'mobile' => $request->mobile,
@@ -254,6 +277,25 @@ public function home()
 
         $order = Order::create($request->all());
 
+         $service=Service::where('id', $request->service_id)->first();
+         $info = [
+            'title' => 'لديك طلب خدمة جديد',
+            'name' => $request->name,
+            'email' => $request->email ?? 'غير متوفر', // التحقق من وجود البريد الإلكتروني
+            'phone' => $request->phone,
+            'service' => $service ? $service->name : 'غير متوفر',
+            'data' => $request->message,
+        ];
+
+         try {
+            Mail::send('mail', $info, function ($message) {
+                $message->to("info@alhussam11.com", "alhussam11 Info")
+                    ->subject('New Service Order');
+                $message->from('support@alhussam11.com', 'alhussam11 Support');
+            });
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
 

@@ -273,12 +273,17 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="mobile-menu fixed top-0 right-0  w-64 bg-gray-900 text-white p-6 md:hidden z-50" x-show="menuOpen"
-            x-bind:class="{ 'open': menuOpen }">
+        {{-- <div class="mobile-menu h-screen fixed top-0 right-0  w-64 bg-gray-900 text-white p-6 md:hidden z-50" x-show="menuOpen"
+            x-bind:class="{ 'open': menuOpen }"  x-cloak x-transition.opacity> --}}
+
+<div x-show="menuOpen" x-cloak x-transition.opacity
+            class="fixed inset-0 bg-gray-900 text-white bg-opacity-50 z-50 md:hidden" @click="menuOpen = false">
+            <div class="fixed top-0 right-0 w-3/4 max-w-sm bg-gray-900 text-white h-full shadow-lg overflow-y-auto"
+                @click.stop>
             <button class="absolute top-4 left-4" @click="menuOpen = false" aria-label="menu exit">
                 <i class="fas fa-times text-2xl"></i>
             </button>
-            <nav class="mt-12 space-y-4">
+            <nav class="mt-20 mr-2 space-y-4">
                 <a href="{{ route('home') }}"
                     class="block hover:text-gray-300 {{ request()->is('/') ? 'font-bold border-r-2 border-white' : '' }}"
                     wire:navigate aria-label="home">الرئيسية</a>
@@ -286,7 +291,7 @@
                     aria-label="about">نبذة عنا</a>
                 <a href="{{ route('services') }}" class="block hover:text-gray-300" wire:navigate
                     aria-label="services">خدماتنا</a>
-                <a href="{{ route('projects') }}" class="block hover:text-gray-300" wire:navigate
+                <a href="{{ route('projects') }}" class="block hover:text-gray-300" 
                     aria-label="services">المشاريع</a>
                 {{-- <div x-data="{ open: false }">
                     <button @click="open = !open" class="block hover:text-gray-300 flex justify-between w-full"
@@ -306,6 +311,7 @@
                 <button @click="contactOpen = true" class="block hover:text-gray-300 text-left"
                     aria-label="contact">تواصل معنا</button>
             </nav>
+            </div>
         </div>
 
         <!-- Main Content -->
