@@ -71,7 +71,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <!-- Text -->
-                        <h3 class="text-xl font-semibold text-navy mb-3 relative">
+                        <h3 class="text-xl font-semibold text-navy text-center mb-3 relative">
                             @if ($about->name == 'Vision')
                                 رؤيتنا
                             @else
@@ -127,7 +127,7 @@
         class="bg-white py-20 opacity-0 translate-y-10">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl sm:text-5xl font-bold text-navy mb-16">شركائنا</h2>
-            <div class="bg-gray-50 rounded-xl shadow-lg overflow-hidden py-6">
+            <div class="bg-gray-300 rounded-xl shadow-lg overflow-hidden py-6">
                 <div class="flex animate-continuous-slide" x-data="{ pause: false }" @mouseenter="pause = true"
                     @mouseleave="pause = false">
                     <!-- Logos (Repeated for seamless loop) -->
@@ -259,10 +259,6 @@
         }
 
         /* Typography */
-        h2, h3 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-        }
 
         .text-lg {
             font-size: 1.125rem;

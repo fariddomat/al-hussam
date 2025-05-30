@@ -31,39 +31,39 @@ class SiteController extends Controller
 {
     // Home
 
-public function home()
-{
-    try {
-        $sliders = Slider::orderBy('order_num')->get()->map(fn($slider) => [
-            'image' => $slider->img ? Storage::url($slider->img) : asset('images/default-slider.jpg'),
-            'text' => htmlspecialchars($slider->title ?? 'بدون عنوان', ENT_QUOTES, 'UTF-8'),
-            'description' => $slider->description ? strip_tags($slider->description) : 'بدون وصف' // Sanitize HTML
-            // Alternative without DOMPurify: 'description' => $slider->description ?? 'بدون وصف'
-        ]);
-        $blogs = Blog::where('show_at_home', true)->take(3)->get();
-        $projects = Project::where('show_home', '1')->take(3)->get();
-        $services = Service::take(5)->get();
-        $steps = Step::get()->map(fn($step) => [
-            'icon' => $step->icon ?? '',
-            'name' => $step->name ?? 'مجهول',
-            'description' => strip_tags($step->description) ?? 'بدون وصف'
-        ]);
-        $counters = Counter::all();
-        $partners = Partner::all();
-        $facilities = Facility::take(6)->get();
-        $reviews = Review::take(5)->get()->map(fn($review) => [
-            'icon' => $review->img ? Storage::url($review->img) : asset('images/default-user.jpg'),
-            'name' => $review->name ?? 'مجهول',
-            'title' => $review->title ?? 'بدون عنوان',
-            'description' => $review->description? strip_tags($review->description) : 'بدون وصف'
-        ]);
+    public function home()
+    {
+        try {
+            $sliders = Slider::orderBy('order_num')->get()->map(fn($slider) => [
+                'image' => $slider->img ? Storage::url($slider->img) : asset('images/default-slider.jpg'),
+                'image_mobile' => $slider->img_mobile ? Storage::url($slider->img_mobile) : ($slider->img ? Storage::url($slider->img) : asset('images/default-slider.jpg')),
+                'text' => htmlspecialchars($slider->title ?? 'بدون عنوان', ENT_QUOTES, 'UTF-8'),
+                'description' => $slider->description ? strip_tags($slider->description) : 'بدون وصف'
+            ]);
+            $blogs = Blog::where('show_at_home', true)->take(3)->get();
+            $projects = Project::where('show_home', '1')->take(3)->get();
+            $services = Service::take(5)->get();
+            $steps = Step::get()->map(fn($step) => [
+                'icon' => $step->icon ?? '',
+                'name' => $step->name ?? 'مجهول',
+                'description' => strip_tags($step->description) ?? 'بدون وصف'
+            ]);
+            $counters = Counter::all();
+            $partners = Partner::all();
+            $facilities = Facility::take(6)->get();
+            $reviews = Review::take(5)->get()->map(fn($review) => [
+                'icon' => $review->img ? Storage::url($review->img) : asset('images/default-user.jpg'),
+                'name' => $review->name ?? 'مجهول',
+                'title' => $review->title ?? 'بدون عنوان',
+                'description' => $review->description ? strip_tags($review->description) : 'بدون وصف'
+            ]);
 
-        return view('home.home', compact('sliders', 'blogs', 'steps', 'services', 'projects', 'counters', 'partners', 'reviews', 'facilities'));
-    } catch (\Exception $e) {
-        \Log::error('HomeController Error: ' . $e->getMessage() . ' | File: ' . $e->getFile() . ' | Line: ' . $e->getLine());
-        return response('Internal Server Error', 500);
+            return view('home.home', compact('sliders', 'blogs', 'steps', 'services', 'projects', 'counters', 'partners', 'reviews', 'facilities'));
+        } catch (\Exception $e) {
+            \Log::error('HomeController Error: ' . $e->getMessage() . ' | File: ' . $e->getFile() . ' | Line: ' . $e->getLine());
+            return response('Internal Server Error', 500);
+        }
     }
-}
     public function search(Request $request)
     {
         $query = $request->input('query');
@@ -208,7 +208,7 @@ public function home()
 
         ContactUs::create($validated);
 
-        $project=Project::where('id', $request->project_id)->first();
+        $project = Project::where('id', $request->project_id)->first();
         $info = [
             'title' => 'لديك طلب تواصل جديد',
             'name' => $request->name,
@@ -218,7 +218,7 @@ public function home()
             'data' => $request->message,
         ];
 
-         try {
+        try {
             Mail::send('mail', $info, function ($message) {
                 $message->to("info@alhussam11.com", "alhussam11 Info")
                     ->subject('New Contact');
@@ -277,8 +277,8 @@ public function home()
 
         $order = Order::create($request->all());
 
-         $service=Service::where('id', $request->service_id)->first();
-         $info = [
+        $service = Service::where('id', $request->service_id)->first();
+        $info = [
             'title' => 'لديك طلب خدمة جديد',
             'name' => $request->name,
             'email' => $request->email ?? 'غير متوفر', // التحقق من وجود البريد الإلكتروني
@@ -287,7 +287,7 @@ public function home()
             'data' => $request->message,
         ];
 
-         try {
+        try {
             Mail::send('mail', $info, function ($message) {
                 $message->to("info@alhussam11.com", "alhussam11 Info")
                     ->subject('New Service Order');

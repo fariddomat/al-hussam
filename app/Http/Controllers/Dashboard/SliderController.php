@@ -18,9 +18,9 @@ class SliderController extends Controller
     {
 
         $sliders = \App\Models\Slider::orderBy('order_num')->get();
-//         foreach ($sliders as $index => $slider) {
-//     $slider->update(['order_num' => $index + 1]);
-// }
+        //         foreach ($sliders as $index => $slider) {
+        //     $slider->update(['order_num' => $index + 1]);
+        // }
         return view('dashboard.sliders.index', compact('sliders'));
     }
 
@@ -35,13 +35,18 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'img' => 'required|image|max:2048'
+            'img' => 'required|image|max:2048',
+            'img_mobile' => 'nullable|image|max:2048',
         ]);
-                if ($request->hasFile('img')) {
+        if ($request->hasFile('img')) {
             $validated['img'] = $request->file('img')->store('public/imgs');
         }
 
-         $maxOrder = Slider::max('order_num') ?? 0;
+        if ($request->hasFile('img_mobile')) {
+            $validated['img_mobile'] = $request->file('img_mobile')->store('public/imgs');
+        }
+
+        $maxOrder = Slider::max('order_num') ?? 0;
         $validated['order_num'] = $maxOrder + 1;
 
         $slider = \App\Models\Slider::create($validated);
@@ -60,7 +65,7 @@ class SliderController extends Controller
     {
         $slider = \App\Models\Slider::findOrFail($id);
 
-        return view('dashboard.sliders.edit', compact('slider', ));
+        return view('dashboard.sliders.edit', compact('slider',));
     }
 
     public function update(Request $request, $id)
@@ -69,11 +74,16 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'img' => 'nullable|image|max:2048'
+            'img' => 'nullable|image|max:2048',
+            'img_mobile' => 'nullable|image|max:2048',
         ]);
-                if ($request->hasFile('img')) {
+        if ($request->hasFile('img')) {
             $validated['img'] = $request->file('img')->store('public/imgs');
             if ($slider->img) Storage::delete($slider->img);
+        }
+        if ($request->hasFile('img_mobile')) {
+            $validated['img_mobile'] = $request->file('img_mobile')->store('public/imgs');
+            if ($slider->img_mobile) Storage::delete($slider->img_mobile);
         }
 
         $slider->update($validated);
@@ -81,7 +91,7 @@ class SliderController extends Controller
         return redirect()->route('dashboard.sliders.index')->with('success', 'Slider updated successfully.');
     }
 
-        public function destroy($id)
+    public function destroy($id)
     {
         $slider = \App\Models\Slider::findOrFail($id);
         $slider->delete();

@@ -4,23 +4,36 @@
             @lang('site.create') @lang('site.dashboard.sliders')
         </h1>
 
-        <form action="{{ route('dashboard.sliders.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md" enctype="multipart/form-data">
+        <form action="{{ route('dashboard.sliders.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md"
+            enctype="multipart/form-data">
             @csrf
-                        <div class="mb-4">
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.title')</label>
-                <input type="text" name="title" value="{{ old('title') }}" class="w-full border border-gray-300 rounded p-2">
+                <input type="text" name="title" value="{{ old('title') }}"
+                    class="w-full border border-gray-300 rounded p-2">
                 @error('title')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
-            </div>            <div class="mb-4">
+            </div>
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.description')</label>
                 <textarea name="description" class="w-full border border-gray-300 rounded p-2">{{ old('description') }}</textarea>
                 @error('description')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
-            </div>            <div class="mb-4">
+            </div>
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.img')</label>
-                <input type="file" name="img" accept="image/*" class="w-full border border-gray-300 rounded p-2">                @error('img')
+                <input type="file" name="img" accept="image/*" class="w-full border border-gray-300 rounded p-2">
+                @error('img')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.img') - الجوال</label>
+                <input type="file" name="img_mobile" accept="image/*" class="w-full border border-gray-300 rounded p-2">
+                @error('img_mobile')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

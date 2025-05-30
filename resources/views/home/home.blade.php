@@ -1,51 +1,60 @@
 <x-site-layout>
-    <!-- Hero Image Slider -->
-    <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
-        class="relative h-[85vh] md:h-[100vh] opacity-0 overflow-hidden">
-        <div x-data='{
-            slides: @json($sliders, JSON_UNESCAPED_SLASHES),
-            currentSlide: 0,
-            init() {
-                if (this.slides.length > 0) {
-                    setInterval(() => {
-                        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-                    }, 10000);
-                }
+   <!-- Hero Image Slider -->
+<section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
+    class="relative h-[85vh] md:h-[100vh] opacity-0 overflow-hidden">
+    <div x-data='{
+        slides: @json($sliders, JSON_UNESCAPED_SLASHES),
+        currentSlide: 0,
+        isMobile: window.innerWidth < 768,
+        init() {
+            // Update isMobile on resize
+            window.addEventListener("resize", () => {
+                this.isMobile = window.innerWidth < 768;
+            });
+            // Auto-advance slides
+            if (this.slides.length > 0) {
+                setInterval(() => {
+                    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+                }, 5000);
             }
-        }'
-            class="relative h-full" wire:ignore>
-            <!-- Debug -->
-            <div x-show="false" x-text="JSON.stringify(slides)"></div>
-            <!-- Slides -->
-            <template x-for="(slide, index) in slides" :key="index">
-                <div x-show="currentSlide === index" class="absolute inset-0 transition-opacity duration-1000"
-                    :class="{ 'opacity-100': currentSlide === index, 'opacity-0': currentSlide !== index }">
-                    <!-- Background Image with Zoom Effect -->
-                    <div class="absolute inset-0 bg-cover bg-center zoom-effect"
-                        :style="{ 'background-image': `url(${slide.image})` }"></div>
-                    <!-- Dark Overlay -->
-                    <div class="absolute inset-0" style="background: #173c4d78"></div>
-                    <!-- Right-Aligned Content (Text, Description, Button) -->
-                    <div
-                        class="absolute top-1/2 right-8 md:right-12 transform -translate-y-1/2 text-right text-white animate-text-slide-in flex flex-col items-start">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4" x-text="slide.text"></h1>
-                        <p class="text-lg md:text-xl max-w-md mb-6" x-text="slide.description"></p>
-                        <a wire:navigate href="{{ route('about') }}"
-                            class="inline-block px-6 py-3 bg-transparent text-white font-semibold rounded-md border border-white hover:border-blue-500 relative overflow-hidden group hover:text-white transition-colors duration-300"
-                            aria-label="home">
-                            <span class="relative z-10">استكشف المزيد</span>
-                            <span
-                                class="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
-                        </a>
-                    </div>
+        },
+        getSlideImage(slide) {
+            return this.isMobile ? slide.image_mobile : slide.image;
+        }
+    }'
+        class="relative h-full" wire:ignore>
+        <!-- Debug -->
+        <div x-show="false" x-text="JSON.stringify(slides)"></div>
+        <!-- Slides -->
+        <template x-for="(slide, index) in slides" :key="index">
+            <div x-show="currentSlide === index" class="absolute inset-0 transition-opacity duration-1000"
+                :class="{ 'opacity-100': currentSlide === index, 'opacity-0': currentSlide !== index }">
+                <!-- Background Image with Zoom Effect -->
+                <div class="absolute inset-0 bg-cover bg-center zoom-effect"
+                    :style="{ 'background-image': `url(${getSlideImage(slide)})` }"></div>
+                <!-- Dark Overlay -->
+                <div class="absolute inset-0" style="background: #173c4d78"></div>
+                <!-- Right-Aligned Content (Text, Description, Button) -->
+                <div
+                    class="absolute top-1/2 right-8 md:right-12 transform -translate-y-1/2 text-right text-white animate-text-slide-in flex flex-col items-start">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4" x-text="slide.text"></h1>
+                    <p class="text-lg md:text-xl max-w-md mb-6" x-text="slide.description"></p>
+                    <a wire:navigate href="{{ route('about') }}"
+                        class="inline-block px-6 py-3 bg-transparent text-white font-semibold rounded-md border border-white hover:border-blue-500 relative overflow-hidden group hover:text-white transition-colors duration-300"
+                        aria-label="home">
+                        <span class="relative z-10">استكشف المزيد</span>
+                        <span
+                            class="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
+                    </a>
                 </div>
-            </template>
-            <div x-show="slides.length === 0"
-                class="absolute inset-0 flex items-center justify-center text-white bg-gray-900">
-                <p>لا توجد صور متاحة</p>
             </div>
+        </template>
+        <div x-show="slides.length === 0"
+            class="absolute inset-0 flex items-center justify-center text-white bg-gray-900">
+            <p>لا توجد صور متاحة</p>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Projects Section -->
     <section x-intersect="$el.classList.add('animate-section', 'fade-in-slide-up')"
@@ -177,20 +186,20 @@
                     }
                 }
             }'
-                class="relative" dir="ltr">
+                class="relative">
                 <!-- Slider Content -->
                 <div class="overflow-hidden">
-                    <div class="flex transition-transform duration-500 ease-in-out"
+                    <div class="flex transition-transform duration-500 ease-in-out" style="    justify-content: center;"
                         :style="{ transform: `translateX(${(currentSlide * -100 / slidesPerView)}%)` }">
                         @foreach ($partners as $index => $partner)
                             <div x-intersect="$el.classList.add('animate-item', 'fade-in-scale')"
                                 x-intersect:delay="{{ $index * 100 }}"
                                 class="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2 group">
                                 <div
-                                    class="relative bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
+                                    class="relative bg-gray-300 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
                                     <img src="{{ Storage::url($partner->img) }}"
                                         alt="{{ $partner->name ?? 'Partner' }}"
-                                        class="w-full h-32 md:h-40 object-contain p-4">
+                                        class="w-full h-32 ">
                                     <!-- Partner Name -->
                                     <div
                                         class="bg-black bg-opacity-80 text-white text-sm font-semibold py-2 px-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

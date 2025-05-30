@@ -14,6 +14,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('order_num')->nullable();
             $table->string('img');
+            $table->string('img_mobile')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
